@@ -23,3 +23,5 @@ chúng.
 • Độ bao phủ càng lớn thì độ tin cậy của bộ kiểm thử càng cao.
 
 • Mục tiêu: kiểm thử với số ca tối thiểu nhưng độ bao phủ tối đa.
+
+<img width="569" alt="Screen Shot 2020-12-07 at 2 10 41 PM" src="https://user-images.githubusercontent.com/54991791/101320318-201db600-3896-11eb-8c64-ba75133a42e5.png">
