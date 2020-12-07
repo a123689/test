@@ -10,6 +10,8 @@ Kiểm thử dòng điều khiển
 
 – Các cạnh là các dòng điều khiển giữa các câu lệnh /nhóm câu lệnh
 
+<img width="854" alt="Screen Shot 2020-12-07 at 2 05 12 PM" src="https://user-images.githubusercontent.com/54991791/101319869-42630400-3895-11eb-892f-65f8da39c6a9.png">
+
 ### Các độ đo kiểm thử
 
 • Độ đo kiểm thử là mức độ bao phủ của một bộ kiểm thử (tập
@@ -24,4 +26,13 @@ chúng.
 
 • Mục tiêu: kiểm thử với số ca tối thiểu nhưng độ bao phủ tối đa.
 
+### Độ đo kiểm thử cấp 1 - độ đo C1
+
+• Mỗi câu lệnh được thực hiện ít nhất một lần sau khi chạy các ca kiểm thử.
+
+• Như ví dụ trên, cần 2 ca kiểm thử để đạt 100% độ bao phủ cho độ đo C1
+
 <img width="569" alt="Screen Shot 2020-12-07 at 2 10 41 PM" src="https://user-images.githubusercontent.com/54991791/101320318-201db600-3896-11eb-8c64-ba75133a42e5.png">
+
+### Độ đo kiểm thử cấp 2 - độ đo C2
+• Các điểm quyết định trong đồ thị dòng điều khiển của đơn vị kiểm thử đều được thực hiện ít nhất một lần cả hai nhánh đúng và sai.
