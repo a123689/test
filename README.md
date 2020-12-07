@@ -40,3 +40,6 @@ chúng.
 <img width="872" alt="Screen Shot 2020-12-07 at 2 22 45 PM" src="https://user-images.githubusercontent.com/54991791/101321302-ba322e00-3897-11eb-8d90-a2eab09c7308.png">
 
 Các ca kiểm thử tương ứng của độ đo C2 ứng với hàm foo ở trên là:
+
+### Độ đo kiểm thử cấp 3 - độ đo C3
+• Các điều kiện con thuộc các điều kiện phức tạp tương ứng với các điểm quyết định trong đồ thị dòng điều khiển đều được thực hiện ít nhất một lần cả hai nhánh đúng và sai.
