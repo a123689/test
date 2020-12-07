@@ -49,3 +49,73 @@ Các ca kiểm thử tương ứng của độ đo C2 ứng với hàm
 <img width="871" alt="Screen Shot 2020-12-07 at 2 27 48 PM" src="https://user-images.githubusercontent.com/54991791/101321800-899ec400-3898-11eb-8031-2be9cab4a95a.png">
 
 Các ca kiểm thử tương ứng của độ đo C3 ứng với hàm foo ở trên là:
+<img width="633" alt="Screen Shot 2020-12-07 at 2 30 36 PM" src="https://user-images.githubusercontent.com/54991791/101321986-d71b3100-3898-11eb-92fb-31fb9dd5af38.png">
+
+### Các phương thức Assert()
+
+assertEquals(): So sánh 2 giá trị để kiểm tra bằng nhau. Test sẽ được chấp nhận nếu các giá trị bằng nhau.
+
+assertFalse(): Đánh giá biểu thức luận lý. Test sẽ được chấp nhận nếu biểu thức sai.
+
+assertNotNull(): So sánh tham chiếu của một đối tượng với null. Test sẽ được chấp nhận nếu tham chiếu đối tượng khác null.
+
+assertNotSame(): So sánh địa chỉ vùng nhớ của 2 tham chiếu đối tượng bằng cách sử dụng toán tử ==. Test sẽ được chấp nhận nếu cả 2 đều tham chiếu đến các đối tượng khác nhau
+
+assertNull(): So sánh tham chiếu của một đối tượng với giá trị null. Test sẽ được chấp nhận nếu tham chiếu là null.
+
+assertSame(): So sánh địa chỉ vùng nhớ của 2 tham chiếu đối tượng bằng cách sử dụng toán tử ==. Test sẽ được chấp nhận nếu cả 2 đều tham chiếu đến cùng một đối tượng.
+
+assertTrue(): Đánh giá một biểu thức luận lý. Test sẽ được chấp nhận nếu biểu thức đúng fail(): Phương thức này làm cho test hiện hành thất bại, phương thức này thường được sử dụng khi xử lý các biệt lệ.
+
+### Viết Unit Test
+
+
+
+  object SampleTest {
+  
+    fun foo(a:Int,b:Int,c:Int,d:Int): Int{
+        var e: Int = 0
+        if(a == 0) return 0
+        var x = 0
+        if((a==b) ||(a==d)){
+            x = 1
+        }
+        try {
+            e = 1/x
+        }catch (e:Exception){
+
+        }
+
+        return  e
+
+    }
+ }
+ 
+ class SampleTestTest{
+ 
+    @Test
+    fun testCase1Result0(){
+        val result = SampleTest.foo(0,1,2,3)
+        assertEquals(0,result)
+    }
+
+    @Test
+    fun testCase2Result1(){
+        val result = SampleTest.foo(1,1,2,3)
+        assertEquals(1,result)
+    }
+
+    @Test
+    fun testCase3Result(){
+        val result = SampleTest.foo(1,2,1,2)
+
+    }
+
+    @Test
+    fun testCase4Result(){
+        val result = SampleTest.foo(1,2,1,1)
+        assertEquals(1,result)
+    }
+
+}
+
