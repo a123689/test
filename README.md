@@ -119,3 +119,51 @@ assertTrue(): Đánh giá một biểu thức luận lý. Test sẽ được ch�
 
 }
 
+## Một số Annotation cơ bản của JUnit
+
+JUnit cung cấp một số Annotation để viết Test như sau:
+
+### @Before
+Phương thực được đánh dấu với Annotation này sẽ được gọi trước mỗi khi phương thức @Test được gọi.
+
+Nó thường được sử dụng để khởi tạo dữ liệu trước khi thực thi một phương thức @Test.
+
+### @After
+Phương thực được đánh dấu với Annotation này sẽ được gọi sau mỗi khi phương thức @Test được gọi.
+
+Nó thường được sử dụng để dọn dẹp bộ nhớ sau khi thực thi một phương thức @Test.
+
+### @BeforeClass
+Phương thực được đánh dấu với Annotation này sẽ được gọi trước khi thực thi tất cả các phương thức @Test được gọi trong một Test class. Phương thức này chỉ được gọi một lần duy nhất.
+
+Phương thức đánh dấu Annotation này phải là static.
+
+
+ 
+Nó thường được sử dụng để khởi tạo dữ liệu cho việc thực thi một Test class.
+
+### @AfterClass
+Tương tự như @BeforeClass, nhưng nó được gọi sau khi kết thúc thực thi các phương thức @Test. Phương thức này chỉ được gọi một lần duy nhất.
+
+Phương thức đánh dấu Annotation này phải là static.
+
+Nó thường được sử dụng để dọn dẹp bộ nhớ sau khi thực thi tất cả các phương thức @Test trong một Test class.
+
+### @Test
+Được sử dụng để đánh dấu đây là một phương thức test.@Test(timeout=500)Được sử dụng khi cần giới hạn thời gian thực thi của một phương thức. Nếu vượt quá thời này thì phương thức sẽ fail.
+
+### @Test(expected=XxxException.class)
+Được sử dụng khi cần test một ngoại lệ được throw ra từ phương thức được test. Nếu ngoại lệ không được throw thì phương thức sẽ fail.
+
+### @Ignore
+Được sử dụng để đánh dấu phương thức này để được bỏ qua (ignore/ disable), không cần thực thi test.
+
+Nó có thể sử dụng cho một phương thức test hay một class từ một test suite.
+
+### @FixMethodOrder
+Annotation này cho phép user có thể chọn thứ tự thực thi các phương thức @Test trong một test class.
+
+
+## Lifecycle của một Test Class trong JUnit
+
+Trong ví dụ bên dưới, chúng ta sẽ thấy được cách mà một Unit test được thi thi với JUnit
