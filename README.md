@@ -167,3 +167,163 @@ Annotation này cho phép user có thể chọn thứ tự thực thi các phư�
 ## Lifecycle của một Test Class trong JUnit
 
 Trong ví dụ bên dưới, chúng ta sẽ thấy được cách mà một Unit test được thi thi với JUnit
+
+<img width="274" alt="Screen Shot 2020-12-08 at 7 29 58 PM" src="https://user-images.githubusercontent.com/54991791/101484458-402fa100-398c-11eb-9166-bb27a29aa5cf.png">
+
+class JUnitLifeCycleTest {
+
+    companion object{
+        @BeforeClass @JvmStatic
+        fun runOnceBeforeClass() {
+            println("@BeforeClass - runOnceBeforeClass")
+        }
+
+        @AfterClass @JvmStatic
+        fun runOnceAfterClass() {
+            println("@AfterClass - runOnceAfterClass")
+        }
+    }
+
+
+    @Before
+    fun runBeforeTestMethod() {
+        println("@Before - runBeforeTestMethod")
+    }
+
+    @After
+    fun runAfterTestMethod() {
+        println("@After - runAfterTestMethod")
+    }
+
+    @Test
+    fun test_method_1() {
+        println("@Test - test_method_1")
+    }
+
+    @Test
+    fun test_method_2() {
+        println("@Test - test_method_2")
+    }
+}
+
+### Ví dụ @Ignore a Test
+
+Vì một lý do nào đó, chúng ta muốn tạm thời vô hiệu hóa test case (bỏ qua/ không chạy test case đó).
+
+Thông thường ta sẽ xóa hoặc comment annotation @Test, như thế trình test runner sẽ bỏ qua method đó nhưng đồng thời test case đó cũng sẽ không được report, chúng ta có thể quên mất là có test case đó.
+
+ 
+Biện pháp thay thế là sử dụng annotation @Ignore ở trước hoặc sau annotation @Test, sau khi chạy JUnit test, nó vẫn thông báo là có test case đó nhưng đang bị disable.
+
+    @Test
+    @Ignore("This test case will be ignored")
+    fun testEquals() {
+        val expected = "DAT"
+        Assert.assertEquals(expected, "DAT")
+    }
+
+    @Test
+    fun testTrue() {
+        Assert.assertTrue(true)
+    }
+
+    @Test
+    fun testFalse() {
+        Assert.assertFalse(false)
+    }
+
+### Ví dụ Timeout Test
+
+Chúng ta có thể expect thời gian timeout của một test case bằng cách sử dụng thuộc tính timeout trong annoation @Test.
+
+  object TaskUtils {
+ 
+    fun doNormalTask() : Int{
+        try {
+            TimeUnit.SECONDS.sleep(3)
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
+        return 1
+    }
+
+    fun doHeavyTask() : Int{
+        try {
+            TimeUnit.SECONDS.sleep(5)
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
+        return 1
+    }
+ }
+ 
+  Mong muốn thời gian thực thi mỗi phương thức tối đa là 3 giây. Nếu sau thời gian đó, thì xem như phương thức test bị failed. 
+  
+    @Test(timeout = 3100)
+    fun testTimeout1() {
+        val expected = 1
+        val actual = doNormalTask()
+        Assert.assertEquals(expected.toLong(), actual.toLong())
+    }
+
+    @Test(timeout = 3000)
+    fun testTimeout2() {
+        val expected = 1
+        val actual = doHeavyTask()
+        Assert.assertEquals(expected.toLong(), actual.toLong())
+    }
+ 
+### Ví dụ Expected Exceptions Test
+
+object MathUtil {
+
+    fun sum(a:Int):Int{
+        if(a == 0){
+            throw IllegalArgumentException("Fail")
+        }
+        return 1
+    }
+}
+
+Trong một số trường hợp chúng ta cần viết unit test ứng với trường hợp xảy ra exception thì chúng ta expect kết quả là test case đó sẽ xảy ra một Exception chứ không phải một giá trị cụ thể
+
+    @Test(expected = IllegalArgumentException::class)
+    @Throws(Exception::class)
+    fun testDivideByZero() {
+        MathUtil.sum(0)
+    }
+    
+
+### Ví dụ @FixMethodOrder Test
+
+Các phương thức test trong một class nên được viết một cách độc lập, không phụ thuộc lẫn nhau nên thứ tự thực thi một lớp không quan trọng. Tuy nhiên, chúng ta có thể xác định thứ tự thực thi của các method trong class test bằng cách dùng annotation @FixMethodOrder ở mức class. Có 3 kiểu sắp xếp là:
+
+@FixMethodOrder(MethodSorters.DEFAULT): Đây là kiểu sắp xếp mặc định nếu không khai báo @FixMethodOrder, tuy nhiên với kiểu này thì sẽ không thể xác định chính xác method nào sẽ được thực thi trước.
+
+@FixMethodOrder(MethodSorters.JVM): Thứ tự các method test dựa theo JVM. Tuy nhiên thứ tự này có thể bị thay đổi khi thực thi.
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING): Thứ tự các method được thực thi dựa theo tên method. Thông thường, nếu cần sắp xếp thì kiểu này được chọn bởi nó giữ đúng thứ tự theo tên phương thức, không bị thay đổi như 2 kiểu trên.
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+class FixMethodOrderTest {
+
+    @Test
+    fun test_11() {
+        Assert.assertTrue(true)
+    }
+
+    @Test
+    fun test_1() {
+        Assert.assertTrue(true)
+    }
+
+    @Test
+    fun test_10() {
+        Assert.assertTrue(true)
+    }
+
+    @Test
+    fun test_2() {
+        Assert.assertTrue(true)
+    }
+}
