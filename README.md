@@ -298,7 +298,7 @@ Trong một số trường hợp chúng ta cần viết unit test ứng với tr
 
 Các phương thức test trong một class nên được viết một cách độc lập, không phụ thuộc lẫn nhau nên thứ tự thực thi một lớp không quan trọng. Tuy nhiên, chúng ta có thể xác định thứ tự thực thi của các method trong class test bằng cách dùng annotation @FixMethodOrder ở mức class. Có 3 kiểu sắp xếp là:
 
-@FixMethodOrder(MethodSorters.DEFAULT): Đây là kiểu sắp xếp mặc định nếu không khai báo @FixMethodOrder, tuy nhiên với kiểu này thì sẽ không thể xác định chính xác method nào sẽ được thực thi trước.
+@FixMethodOrder(MethodSorters.DEFAULT): Đây là kiểu sắp xếp mặc định nếu không khai báo @FixMethodOrder
 
 @FixMethodOrder(MethodSorters.JVM): Thứ tự các method test dựa theo JVM. Tuy nhiên thứ tự này có thể bị thay đổi khi thực thi.
 
@@ -326,4 +326,74 @@ class FixMethodOrderTest {
     fun test_2() {
         Assert.assertTrue(true)
     }
+}
+
+### Test database
+
+@Entity(tableName = "shopping_items")
+data class ShoppingItem(
+    var name: String,
+    var amount: Int,
+    var price: Float,
+    var imageUrl: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int? = null
+)
+
+
+@Dao
+interface ShoppingDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertShoppingItem(shoppingItem: ShoppingItem)
+    
+     @Query("SELECT * FROM shopping_items")
+    fun getAllShoppingItems(): List<ShoppingItem>
+}
+
+
+@Database(
+    entities = [ShoppingItem::class],
+    version = 1
+)
+abstract class ShoppingItemDatabase : RoomDatabase() {
+
+    abstract fun shoppingDao(): ShoppingDao
+}
+
+@ExperimentalCoroutinesApi
+@RunWith(AndroidJUnit4::class)
+@SmallTest
+class ShoppingDaoTest {
+
+
+    @Rule
+    @JvmField
+    var instan  = InstantTaskExecutorRule()
+    private lateinit var database: ShoppingItemDatabase
+    private lateinit var dao: ShoppingDao
+
+    @Before
+    fun setup(){
+        database = Room.inMemoryDatabaseBuilder(
+            ApplicationProvider.getApplicationContext(),
+            ShoppingItemDatabase::class.java
+        ).allowMainThreadQueries().build()
+        dao = database.shoppingDao()
+    }
+
+    @After
+    fun teardown(){
+        database.close()
+    }
+
+    @Test
+    fun insertShoppingItem() = runBlockingTest {
+        val shoppingItem = ShoppingItem("name",1,1f,"url",1)
+        dao.insertShoppingItem(shoppingItem)
+
+        val allShoppingItems = dao.getAllShoppingItems()
+        assertEquals(shoppingItem,allShoppingItems.get(0))
+
+    }
+
 }
